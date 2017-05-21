@@ -1,1 +1,1 @@
-<h1>插入数据成功</h1>
+<h1><?php echo $message ?></h1>

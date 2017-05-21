@@ -13,7 +13,12 @@
 				return $query->result_array();
 			}
 
-			$query = $this->db->get_where('news',array('slug'=>$slug));
+			if(is_numeric($slug)){
+				$query = $this->db->get_where('news',array('id'=>$slug));
+			} else {
+				$query = $this->db->get_where('news',array('slug'=>$slug));
+			}
+			
 			return $query->row_array();
 		}
 
@@ -31,5 +36,21 @@
 
 			return $this->db->insert('news',$data);
 		}
+
+		//更新数据
+		public function update_news(){
+			$this->load->helper('url');
+
+			$slug = url_title($this->input->post('title'),'dash',TRUE);
+
+			$data = array(
+				'title' => $this->input->post('title'),
+				'slug' => $slug,
+				'text' => $this->input->post('text')
+			);
+
+			return $this->db->update('news',$data,array('id'=>$this->input->post('id')));
+		}
+
 
 	}
